@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useFetchHistoryData = (hostIds, itemIds) => {
+const useFetchHistoryData = (hostIds, itemIds, timeFrom, timeTill) => {
   const [data, setData] = useState([]);
   const authToken =
     "273d6c931078be77807d485d4eeb2dd5d2ca74cf2693db44f99f5159f6982815";
@@ -22,10 +22,11 @@ const useFetchHistoryData = (hostIds, itemIds) => {
                 hostids: hostIds,
                 output: "extend",
                 history: 0,
+                time_from: timeFrom,
+                time_till: timeTill,
                 itemids: itemIds,
                 sortfield: "clock",
                 sortorder: "DESC",
-                limit: 360,
               },
               auth: `${authToken}`,
               id: 1,
@@ -40,7 +41,7 @@ const useFetchHistoryData = (hostIds, itemIds) => {
     };
 
     fetchData();
-  }, []);
+  }, [timeFrom, timeTill]);
 
   return data;
 };
