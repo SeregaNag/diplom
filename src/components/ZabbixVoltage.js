@@ -1,5 +1,5 @@
 import useFetchHistoryData from "../hooks/useFetchHistoryData";
-import { LineChart, Line, XAxis, YAxis } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import "./ZabbixVoltage.css";
 
 const HistoryData = () => {
@@ -25,16 +25,23 @@ const HistoryData = () => {
     const voltageIn = dataVoltageIn[index]?.value || 0;
     const voltageOut = dataVoltageOut[index]?.value || 1;
     const value = (voltageOut / voltageIn) * 100;
-    console.log(item.value);
+    console.log(value);
 
     // Если значение равно 0, то сессия зарядки закончилась
-    if ((isNaN(value) || item.value == 0) && currentSession.length > 0) {
+    if (
+      Boolean(isNaN(value) || item.value === "0") &&
+      currentSession.length > 0
+    ) {
       sessions.push(currentSession);
       currentSession = [];
     }
 
     // Добавляем только те объекты, у которых свойство value не NaN
-    if (Boolean(!isNaN(value)) || Boolean(item.value != 0)) {
+    if (
+      Boolean(!isNaN(value)) &&
+      Boolean(item.value !== "0") &&
+      Boolean(isFinite(value))
+    ) {
       currentSession.push({
         name: item.value,
         value,
@@ -61,6 +68,8 @@ const HistoryData = () => {
             <LineChart width={600} height={300} data={session}>
               <XAxis dataKey="name" />
               <YAxis tickFormatter={formatYAxis} />
+              <Tooltip />
+              <Legend />
               <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
           </div>
