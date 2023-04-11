@@ -4,7 +4,6 @@ import "./ZabbixVoltage.css";
 
 const HistoryData = (props) => {
   const { startTimestamp, endTimestamp } = props.dateRange;
-  console.log(startTimestamp);
   const hostIdsVoltageIn = ["10580"];
   const itemIdsVoltageIn = ["44797"];
   const dataVoltageIn = useFetchHistoryData(
@@ -82,38 +81,6 @@ const HistoryData = (props) => {
             </LineChart>
           </div>
         ))}
-        <div className="container">
-          <div className="column">
-            <h3>DataVoltageIn</h3>
-            <ul>
-              {dataVoltageIn.map((item) => (
-                <li key={item.ns}>
-                  {new Date(item.clock * 1000).toLocaleString()} - {item.value}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="column">
-            <h3>DataVoltageOut</h3>
-            <ul>
-              {dataVoltageOut.map((item) => (
-                <li key={item.ns}>
-                  {new Date(item.clock * 1000).toLocaleString()} - {item.value}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="column">
-            <h3>DataCurrentOut</h3>
-            <ul>
-              {dataCurrentOut.map((item) => (
-                <li key={item.ns}>
-                  {new Date(item.clock * 1000).toLocaleString()} - {item.value}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   );

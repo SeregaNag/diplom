@@ -8,7 +8,6 @@ function App() {
     startTimestamp: 1677242559,
     endTimestamp: 1677242569,
   });
-  console.log(dateRange);
 
   return (
     <div className="App">
