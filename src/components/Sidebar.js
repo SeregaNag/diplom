@@ -85,7 +85,7 @@ const Sidebar = (props) => {
       {historyData.length > 0 ? (
         <div>
           <h3>Сессии за выбранный период:</h3>
-          <ul>
+          <ol>
             {sessions.map((item, index) => (
               <li
                 key={index}
@@ -100,7 +100,7 @@ const Sidebar = (props) => {
                 - {new Date(item[0].clock * 1000).toLocaleString()}
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       ) : (
         <div>Нет данных за выбранный период.</div>

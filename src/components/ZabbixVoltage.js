@@ -66,6 +66,17 @@ const HistoryData = (props) => {
     return value.toFixed(2) + "%";
   };
 
+  const maxName = sessions.reduce((prev, curr) => {
+    const max = Math.max(...curr.map((item) => item.name));
+    return max > prev ? max : prev;
+  }, 0);
+
+  const minVoltage = sessions.reduce((prev, curr) => {
+    const min = Math.min(...curr.map((item) => item.value));
+    return min > prev ? min : prev;
+  }, 0);
+  console.log(sessions);
+
   return (
     <div className="history-data-container">
       <h2>Исторические данные</h2>
@@ -79,7 +90,10 @@ const HistoryData = (props) => {
               <Legend />
               <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
+            <p>Максимальный ток: {maxName}</p>
+            <p>Минимальная эффективность: {minVoltage.toFixed(2) + "%"}</p>
           </div>
+          
         ))}
       </div>
     </div>
