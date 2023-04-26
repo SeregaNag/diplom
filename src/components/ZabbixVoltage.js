@@ -85,7 +85,7 @@ const HistoryData = (props) => {
         {sessions.length <= 1 &&
           sessions.map((session, index) => (
             <div className="history-chart" key={index}>
-              <LineChart width={600} height={300} data={session}>
+              <LineChart width={1000} height={600} data={session}>
                 <XAxis dataKey="name" />
                 <YAxis tickFormatter={formatYAxis} domain={[80, 100]} />
                 <Tooltip />
@@ -96,7 +96,12 @@ const HistoryData = (props) => {
           ))}
         <p>Максимальный ток: {maxName}</p>
         <p>Минимальная эффективность: {minVoltage.toFixed(2) + "%"}</p>
-        <EffGraph startTimestamp={startTimestamp} endTimestamp={endTimestamp} />
+        {sessions.length == 1 && (
+          <EffGraph
+            startTimestamp={startTimestamp}
+            endTimestamp={endTimestamp}
+          />
+        )}
       </div>
     </div>
   );
