@@ -1,6 +1,7 @@
 import useFetchHistoryData from "../hooks/useFetchHistoryData";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import "./ZabbixVoltage.css";
+import EffGraph from "./EffGraph";
 
 const HistoryData = (props) => {
   const { startTimestamp, endTimestamp } = props.dateRange;
@@ -32,8 +33,8 @@ const HistoryData = (props) => {
   const sessions = [];
   let currentSession = [];
   dataCurrentOut.forEach((item, index) => {
-    const voltageIn = dataVoltageIn[index]?.value || 0;
-    const voltageOut = dataVoltageOut[index]?.value || 1;
+    const voltageIn = Number(dataVoltageIn[index]?.value) || 1;
+    const voltageOut = Number(dataVoltageOut[index]?.value) || 1;
     const value = (voltageOut / voltageIn) * 100;
 
     // Если значение равно 0, то сессия зарядки закончилась
@@ -81,20 +82,21 @@ const HistoryData = (props) => {
     <div className="history-data-container">
       <h2>Исторические данные</h2>
       <div className="history-data">
-        {sessions.map((session, index) => (
-          <div className="history-chart" key={index}>
-            <LineChart width={600} height={300} data={session}>
-              <XAxis dataKey="name" />
-              <YAxis tickFormatter={formatYAxis} domain={[80, 100]} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="value" stroke="#8884d8" />
-            </LineChart>
-            <p>Максимальный ток: {maxName}</p>
-            <p>Минимальная эффективность: {minVoltage.toFixed(2) + "%"}</p>
-          </div>
-          
-        ))}
+        {sessions.length <= 1 &&
+          sessions.map((session, index) => (
+            <div className="history-chart" key={index}>
+              <LineChart width={600} height={300} data={session}>
+                <XAxis dataKey="name" />
+                <YAxis tickFormatter={formatYAxis} domain={[80, 100]} />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="value" stroke="#8884d8" />
+              </LineChart>
+            </div>
+          ))}
+        <p>Максимальный ток: {maxName}</p>
+        <p>Минимальная эффективность: {minVoltage.toFixed(2) + "%"}</p>
+        <EffGraph startTimestamp={startTimestamp} endTimestamp={endTimestamp} />
       </div>
     </div>
   );
