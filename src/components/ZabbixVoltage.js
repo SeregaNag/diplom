@@ -54,7 +54,7 @@ const HistoryData = (props) => {
     ) {
       currentSession.push({
         name: item.value,
-        value,
+        efficiency: value,
       });
     }
   });
@@ -67,6 +67,12 @@ const HistoryData = (props) => {
     return value.toFixed(2) + "%";
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp * 1000); // Умножаем на 1000, так как таймстамп в миллисекундах
+    const formattedDate = date.toLocaleString(); // Используем метод toLocaleString для получения форматированной даты
+    return formattedDate;
+  };
+
   const maxName = sessions.reduce((prev, curr) => {
     const max = Math.max(...curr.map((item) => item.name));
     return max > prev ? max : prev;
@@ -76,11 +82,14 @@ const HistoryData = (props) => {
     const min = Math.min(...curr.map((item) => item.value));
     return min > prev ? min : prev;
   }, 0);
-  console.log(sessions);
+
 
   return (
     <div className="history-data-container">
-      <h2>Исторические данные</h2>
+      <h2>
+        Исторические данные о сессии {formatDate(startTimestamp)} -{" "}
+        {formatDate(endTimestamp)}
+      </h2>
       <div className="history-data">
         {sessions.length <= 1 &&
           sessions.map((session, index) => (
@@ -90,7 +99,7 @@ const HistoryData = (props) => {
                 <YAxis tickFormatter={formatYAxis} domain={[80, 100]} />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                <Line type="monotone" dataKey="efficiency" stroke="#8884d8" />
               </LineChart>
             </div>
           ))}

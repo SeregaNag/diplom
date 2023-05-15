@@ -35,8 +35,6 @@ const Sidebar = (props) => {
     sessions.push(currentSession);
   }
 
-  console.log(sessions);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const startTimestamp = startDate.getTime() / 1000;
