@@ -33,8 +33,8 @@ const HistoryData = (props) => {
   const sessions = [];
   let currentSession = [];
   dataCurrentOut.forEach((item, index) => {
-    const voltageIn = Number(dataVoltageIn[index]?.value) || 1;
-    const voltageOut = Number(dataVoltageOut[index]?.value) || 1;
+    const voltageIn = Number(dataVoltageIn[index]?.value) || 0;
+    const voltageOut = Number(dataVoltageOut[index]?.value) || 0;
     const value = (voltageOut / voltageIn) * 100;
 
     // Если значение равно 0, то сессия зарядки закончилась
@@ -79,10 +79,9 @@ const HistoryData = (props) => {
   }, 0);
 
   const minVoltage = sessions.reduce((prev, curr) => {
-    const min = Math.min(...curr.map((item) => item.value));
+    const min = Math.min(...curr.map((item) => item.efficiency));
     return min > prev ? min : prev;
   }, 0);
-
 
   return (
     <div className="history-data-container">
