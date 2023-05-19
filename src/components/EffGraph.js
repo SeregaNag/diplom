@@ -405,7 +405,7 @@ const EffGraph = (props) => {
   ];
 
   return (
-    <div style={{ width: "1200px", overflow: "hidden" }}>
+    <div style={{ width: "1300px", overflow: "hidden" }}>
       <LineChart width={10000} height={800}>
         <XAxis dataKey="name" type="category" />
         <YAxis tickFormatter={formatYAxis} domain={[85, 100]} type="number" />
