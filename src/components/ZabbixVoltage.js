@@ -67,12 +67,6 @@ const HistoryData = (props) => {
     return value.toFixed(2) + "%";
   };
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp * 1000); // Умножаем на 1000, так как таймстамп в миллисекундах
-    const formattedDate = date.toLocaleString(); // Используем метод toLocaleString для получения форматированной даты
-    return formattedDate;
-  };
-
   const maxName = sessions.reduce((prev, curr) => {
     const max = Math.max(...curr.map((item) => item.name));
     return max > prev ? max : prev;
@@ -101,7 +95,7 @@ const HistoryData = (props) => {
           ))}
         <p>Максимальный ток: {maxName}</p>
         <p>Минимальная эффективность: {minVoltage.toFixed(2) + "%"}</p>
-        {sessions.length == 1 && (
+        {sessions.length === 1 && (
           <EffGraph
             startTimestamp={startTimestamp}
             endTimestamp={endTimestamp}
