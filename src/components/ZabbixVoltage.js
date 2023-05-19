@@ -85,10 +85,7 @@ const HistoryData = (props) => {
 
   return (
     <div className="history-data-container">
-      <h2>
-        Исторические данные о сессии {formatDate(startTimestamp)} -{" "}
-        {formatDate(endTimestamp)}
-      </h2>
+      <h2>Исторические данные о сессии</h2>
       <div className="history-data">
         {sessions.length <= 1 &&
           sessions.map((session, index) => (

@@ -7,6 +7,7 @@ import useFetchHistoryData from "../hooks/useFetchHistoryData";
 const Sidebar = (props) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const hostIdsCurrentOut = ["10580"];
   const itemIdsCurrentOut = ["44798"];
   const timeFrom = startDate ? startDate.getTime() / 1000 : null;
@@ -34,18 +35,19 @@ const Sidebar = (props) => {
   if (currentSession.length > 0) {
     sessions.push(currentSession);
   }
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const startTimestamp = startDate.getTime() / 1000;
-    const endTimestamp = endDate.getTime() / 1000;
+  const handleItemClick = (index) => {
+    setSelectedItemIndex(index);
+    const selectedSession = sessions[index];
+    const startTimestamp = selectedSession[selectedSession.length - 1].clock;
+    const endTimestamp = selectedSession[0].clock;
     props.setDateRange({ startTimestamp, endTimestamp });
   };
+
 
   return (
     <div className="sidebar-container">
       <h2>Выберите диапазон дат:</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="form-group">
           <label htmlFor="from">From:</label>
           <DatePicker
@@ -78,7 +80,6 @@ const Sidebar = (props) => {
             scrollableYearDropdown
           />
         </div>
-        <button type="submit">Применить</button>
       </form>
       {historyData.length > 0 ? (
         <div>
@@ -87,12 +88,8 @@ const Sidebar = (props) => {
             {sessions.map((item, index) => (
               <li
                 key={index}
-                onClick={() =>
-                  props.setDateRange({
-                    startTimestamp: item[item.length - 1].clock,
-                    endTimestamp: item[0].clock,
-                  })
-                }
+                onClick={() => handleItemClick(index)}
+                className={selectedItemIndex === index ? "selected" : ""}
               >
                 {new Date(item[item.length - 1].clock * 1000).toLocaleString()}{" "}
                 - {new Date(item[0].clock * 1000).toLocaleString()}
